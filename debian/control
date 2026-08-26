@@ -1,0 +1,14 @@
+Source: pendesk
+Section: x11
+Priority: optional
+Maintainer: PenDesk Prototype <noreply@pendesk.local>
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+
+Package: pendesk
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Stylus-first worksheet and clipart workspace
+ PenDesk is a native Qt 6/QML desktop prototype for browsing learning
+ references, drafting worksheets, creating clipart, and testing pen-oriented
+ interactions on Debian X11 desktops.

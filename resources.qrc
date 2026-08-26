@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/qt/qml/org/pendesk/desktop">
+        <file alias="shaders/ink_smooth.frag.qsb">qml/shaders/ink_smooth.frag.qsb</file>
+        <file alias="shaders/ink_passthrough.frag.qsb">qml/shaders/ink_passthrough.frag.qsb</file>
+    </qresource>
+</RCC>

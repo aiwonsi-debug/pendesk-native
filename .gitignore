@@ -1,0 +1,8 @@
+/target/
+/build/
+/dist/
+/preview-*.png
+/*.zip
+/*.xwd
+*.log
+.DS_Store

@@ -1,0 +1,15 @@
+- [x] Research Qt Quick shader constraints and define the low-latency ink render pipeline.
+- [x] Add a shader-backed QML ink surface with a stroke-preview path and visual smoothing controls.
+- [x] Build and smoke-test the shader-enabled native application, then document the integration contract.
+- [x] Define Debian package metadata, Qt/QML runtime dependencies, and X11 launcher behavior.
+- [x] Add package staging files, desktop-entry metadata, icon assets, and a repeatable package-build script.
+- [x] Build and inspect the `.deb`, then validate installation in an isolated package root.
+- [x] Research low-cost Qt Quick texture and shader practices for the ink-preview path.
+- [x] Add an adaptive quality profile that reduces texture resolution, sample count, and update frequency on lower-end hardware.
+- [x] Build and validate the reduced-cost shader profile, then update the Debian installer.
+- [x] Capture and deliver a rendered worksheet preview of the optimized native application.
+- [x] Audit the rendered native interface, ink pipeline, and Debian package configuration; report prioritized findings.
+- [x] Refine the native workspace for Full HD 11.5-inch landscape and portrait displays; rebuild and capture both release layouts.
+- [x] Recenter the worksheet workspace on a US Letter portrait canvas for pen-display tablet work; validate both Full HD orientations.
+- [x] Rebuild the native home workspace around the supplied stylus desktop reference while retaining the US Letter portrait worksheet route.
+- [ ] Prepare a clean source commit and push the completed PenDesk prototype to GitHub.

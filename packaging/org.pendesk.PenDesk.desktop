@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.5
+Type=Application
+Name=PenDesk
+GenericName=Stylus workspace
+Comment=Stylus-first worksheet, reference, and clipart workspace
+Exec=pendesk
+TryExec=pendesk
+Icon=org.pendesk.PenDesk
+Terminal=false
+Categories=Education;
+Keywords=worksheet;stylus;pen;clipart;education;
+StartupNotify=true
+StartupWMClass=pendesk-native

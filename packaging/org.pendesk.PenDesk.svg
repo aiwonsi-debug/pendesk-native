@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title>PenDesk</title>
+  <rect width="256" height="256" rx="54" fill="#071d42"/>
+  <rect x="38" y="42" width="148" height="172" rx="20" fill="#fffdf9"/>
+  <path d="M70 88h84M70 116h64M70 144h76" stroke="#a7c9ec" stroke-width="10" stroke-linecap="round"/>
+  <path d="M158 56l42 42-74 74-45 13 13-45z" fill="#ff8162" stroke="#071d42" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M81 185l20-6-14-14z" fill="#d5f0df"/>
+  <circle cx="199" cy="58" r="18" fill="#d5f0df"/>
+</svg>
