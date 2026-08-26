@@ -18,7 +18,9 @@ ApplicationWindow {
 
     readonly property DesktopState desktop: DesktopState {}
     readonly property bool landscape: width >= height
-    readonly property int railWidth: Math.max(280, Math.min(480, Math.round(width * 0.1875)))
+    // compact breakpoint (compact = width ต่ำกว่า 1100 logical px): rail ยุบเหลือไอคอน, page-setup panel ซ่อน
+    readonly property bool compact: width < 1100
+    readonly property int railWidth: compact ? 88 : Math.max(280, Math.min(480, Math.round(width * 0.1875)))
     readonly property int contentGutter: landscape ? Math.max(32, Math.round(width * 0.022)) : 24
     readonly property int dockHeight: landscape ? 96 : 108
     readonly property real letterPortraitRatio: 8.5 / 11.0
@@ -58,14 +60,27 @@ ApplicationWindow {
             color: root.desktop.workspace === keyName ? activeColor.darker(1.28) : (parent.hovered ? "#14376a" : root.navySoft)
             border.color: root.desktop.workspace === keyName ? "#66ffffff" : "#0bffffff"
             border.width: root.desktop.workspace === keyName ? 2 : 1
+            scale: parent.down ? 0.96 : 1.0
+            Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
         }
+        Accessible.role: Accessible.Button
+        Accessible.name: label
         contentItem: Item {
             Column {
-                visible: root.landscape
+                visible: root.landscape && !root.compact
                 anchors.centerIn: parent
                 spacing: 4
                 Text { text: glyph; color: "white"; font.pixelSize: 46; font.weight: Font.DemiBold; horizontalAlignment: Text.AlignHCenter; width: parent.width }
                 Text { text: label; color: "white"; font.pixelSize: 18; font.weight: Font.Bold; horizontalAlignment: Text.AlignHCenter; width: parent.width }
+            }
+            // compact landscape: icon only, ไม่แสดงข้อความ เพื่อประหยัดพื้นที่ rail
+            Text {
+                visible: root.landscape && root.compact
+                anchors.centerIn: parent
+                text: glyph
+                color: "white"
+                font.pixelSize: 30
+                font.weight: Font.DemiBold
             }
             Row {
                 visible: !root.landscape
@@ -87,6 +102,9 @@ ApplicationWindow {
         implicitHeight: root.landscape ? 58 : 64
         enabled: !isHistoryAction
         opacity: enabled ? 1.0 : 0.52
+        Accessible.role: Accessible.Button
+        Accessible.name: label
+        Accessible.checked: (isPalm && root.desktop.palm_rest) || (!isPalm && !isHistoryAction && root.desktop.selected_tool === keyName)
         onClicked: {
             if (isPalm)
                 root.desktop.togglePalmRest()
@@ -122,8 +140,8 @@ ApplicationWindow {
             color: fill
             border.color: "#99ffffff"
             border.width: 1
-            scale: parent.hovered ? 1.012 : 1.0
-            Behavior on scale { NumberAnimation { duration: 130; easing.type: Easing.OutCubic } }
+            scale: parent.down ? 0.975 : (parent.hovered ? 1.012 : 1.0)
+            Behavior on scale { NumberAnimation { duration: 110; easing.type: Easing.OutCubic } }
         }
         contentItem: Item {
             Column {
@@ -167,6 +185,8 @@ ApplicationWindow {
         required property color fill
         required property color glyphColor
         hoverEnabled: true
+        Accessible.role: Accessible.Button
+        Accessible.name: label
         onClicked: root.desktop.activateWorkspace(keyName)
         background: Rectangle {
             radius: 22
@@ -193,6 +213,8 @@ ApplicationWindow {
             color: "#fffefa"
             border.color: parent.hovered ? "#a9bfd8" : "#e5e0d8"
             border.width: parent.hovered ? 2 : 1
+            scale: parent.down ? 0.98 : 1.0
+            Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
         }
         contentItem: Row {
             anchors.fill: parent
@@ -219,8 +241,11 @@ ApplicationWindow {
                 Row {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "◔"; color: root.coral; font.pixelSize: 70; font.weight: Font.Bold }
-                    Column { anchors.verticalCenter: parent.verticalCenter; spacing: 1
+                    Text { text: "◔"; color: root.coral; font.pixelSize: root.compact ? 40 : 70; font.weight: Font.Bold }
+                    Column {
+                        visible: !root.compact
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 1
                         Text { text: "Debian"; color: "white"; font.pixelSize: 32; font.weight: Font.Bold }
                         Text { text: "Daily Desk"; color: "#c7bbe9"; font.pixelSize: 18; font.weight: Font.DemiBold }
                     }
@@ -230,6 +255,7 @@ ApplicationWindow {
                 RailTile { Layout.fillWidth: true; keyName: "clipart"; label: "Clipart Studio"; glyph: "✎"; activeColor: root.mint }
                 Item { Layout.fillHeight: true }
                 Rectangle {
+                    visible: !root.compact
                     Layout.fillWidth: true
                     Layout.preferredHeight: 42
                     radius: 12
@@ -309,13 +335,13 @@ ApplicationWindow {
                             width: parent.width
                             spacing: 16
                             Column {
-                                width: root.landscape ? parent.width - 250 : parent.width
+                                width: (root.landscape && !root.compact) ? parent.width - 250 : parent.width
                                 spacing: 4
                                 Text { text: root.workspaceLabel(); color: root.ink; font.pixelSize: root.landscape ? 46 : 40; font.weight: Font.Bold }
                                 Text { text: root.workspaceDescription(); color: root.muted; font.pixelSize: root.landscape ? 19 : 18; font.weight: Font.DemiBold }
                             }
                             Rectangle {
-                                visible: root.landscape
+                                visible: root.landscape && !root.compact
                                 width: 234
                                 height: 62
                                 radius: 14
@@ -343,7 +369,7 @@ ApplicationWindow {
                                 spacing: root.landscape ? 28 : 0
                                 Item {
                                     id: letterPageStage
-                                    width: root.landscape ? parent.width - 296 : parent.width
+                                    width: (root.landscape && !root.compact) ? parent.width - 296 : parent.width
                                     height: parent.height
 
                                     Rectangle {
@@ -381,7 +407,7 @@ ApplicationWindow {
                                 }
 
                                 Rectangle {
-                                    visible: root.landscape
+                                    visible: root.landscape && !root.compact
                                     width: 268
                                     height: parent.height
                                     radius: 18
@@ -426,20 +452,26 @@ ApplicationWindow {
                             spacing: root.landscape ? 18 : 14
                             Text { text: "Good morning"; color: root.ink; font.pixelSize: root.landscape ? 54 : 42; font.weight: Font.Bold }
                             Text { text: "Pick up where you left off"; color: root.muted; font.pixelSize: root.landscape ? 22 : 19; font.weight: Font.DemiBold }
+                            // จำนวนคอลัมน์คำนวณจากความกว้างจริง (ขั้นต่ำ 260px/tile) แทนการ fix 3 คอลัมน์เสมอ
+                            // ป้องกัน tile แคบเกินไปที่ landscape แคบ (เช่น 900x620 ซึ่ง landscape ยังเป็น true)
                             Flow {
                                 width: parent.width
                                 spacing: root.landscape ? 22 : 14
-                                HomeLaunchTile { width: root.landscape ? (parent.width - 52) / 3 : parent.width; height: root.landscape ? 294 : 152; keyName: "browse"; label: "Browse"; glyph: "◎"; fill: "#cfe9fb"; glyphColor: "#416ab8" }
-                                HomeLaunchTile { width: root.landscape ? (parent.width - 52) / 3 : parent.width; height: root.landscape ? 294 : 152; keyName: "worksheets"; label: "New Worksheet"; glyph: "▤"; fill: "#ff9a78"; glyphColor: "#e8f5ff" }
-                                HomeLaunchTile { width: root.landscape ? (parent.width - 52) / 3 : parent.width; height: root.landscape ? 294 : 152; keyName: "clipart"; label: "Create Clipart"; glyph: "✦"; fill: "#c7edd9"; glyphColor: "#1b2e51" }
+                                property int columns: root.landscape ? Math.max(1, Math.min(3, Math.floor(width / 260))) : 1
+                                property real tileW: root.landscape ? (width - spacing * (columns - 1)) / columns : width
+                                HomeLaunchTile { width: parent.tileW; height: root.landscape ? 294 : 152; keyName: "browse"; label: "Browse"; glyph: "◎"; fill: "#cfe9fb"; glyphColor: "#416ab8" }
+                                HomeLaunchTile { width: parent.tileW; height: root.landscape ? 294 : 152; keyName: "worksheets"; label: "New Worksheet"; glyph: "▤"; fill: "#ff9a78"; glyphColor: "#e8f5ff" }
+                                HomeLaunchTile { width: parent.tileW; height: root.landscape ? 294 : 152; keyName: "clipart"; label: "Create Clipart"; glyph: "✦"; fill: "#c7edd9"; glyphColor: "#1b2e51" }
                             }
                             Text { text: "Recent Work"; color: root.ink; font.pixelSize: root.landscape ? 25 : 22; font.weight: Font.Bold }
                             Flow {
                                 width: parent.width
                                 spacing: root.landscape ? 16 : 12
-                                RecentWorkTile { width: root.landscape ? (parent.width - 40) / 3 : parent.width; height: root.landscape ? 142 : 118; titleText: "Rainforest\nworksheet"; glyph: "♣"; artFill: "#6caa7c"; artInk: "#f4fee8" }
-                                RecentWorkTile { width: root.landscape ? (parent.width - 40) / 3 : parent.width; height: root.landscape ? 142 : 118; titleText: "Animal\nclipart set"; glyph: "♞"; artFill: "#ffe4a9"; artInk: "#8a5b26" }
-                                RecentWorkTile { width: root.landscape ? (parent.width - 40) / 3 : parent.width; height: root.landscape ? 142 : 118; titleText: "Math\nreferences"; glyph: "△"; artFill: "#d9d2ff"; artInk: "#315396" }
+                                property int columns: root.landscape ? Math.max(1, Math.min(3, Math.floor(width / 220))) : 1
+                                property real tileW: root.landscape ? (width - spacing * (columns - 1)) / columns : width
+                                RecentWorkTile { width: parent.tileW; height: root.landscape ? 142 : 118; titleText: "Rainforest\nworksheet"; glyph: "♣"; artFill: "#6caa7c"; artInk: "#f4fee8" }
+                                RecentWorkTile { width: parent.tileW; height: root.landscape ? 142 : 118; titleText: "Animal\nclipart set"; glyph: "♞"; artFill: "#ffe4a9"; artInk: "#8a5b26" }
+                                RecentWorkTile { width: parent.tileW; height: root.landscape ? 142 : 118; titleText: "Math\nreferences"; glyph: "△"; artFill: "#d9d2ff"; artInk: "#315396" }
                             }
                         }
 
@@ -470,11 +502,11 @@ ApplicationWindow {
                         id: toolRow
                         anchors.centerIn: parent
                         spacing: root.landscape ? 12 : 8
-                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 48) / 5 : (toolRow.parent.width - root.contentGutter * 2 - 32) / 5; keyName: "pen"; label: "Pen"; glyph: "✎"; fill: "#b9ddff"; isPalm: false }
-                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 48) / 5 : (toolRow.parent.width - root.contentGutter * 2 - 32) / 5; keyName: "eraser"; label: "Eraser"; glyph: "◇"; fill: "#ffb0a6"; isPalm: false }
-                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 48) / 5 : (toolRow.parent.width - root.contentGutter * 2 - 32) / 5; keyName: "undo"; label: "Undo"; glyph: "↶"; fill: "#e8e5ff"; isPalm: false; isHistoryAction: true }
-                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 48) / 5 : (toolRow.parent.width - root.contentGutter * 2 - 32) / 5; keyName: "redo"; label: "Redo"; glyph: "↷"; fill: "#e8e5ff"; isPalm: false; isHistoryAction: true }
-                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 48) / 5 : (toolRow.parent.width - root.contentGutter * 2 - 32) / 5; keyName: "palm"; label: "Palm Rest"; glyph: "✋"; fill: "#c8efd7"; isPalm: true }
+                        // Undo/Redo ซ่อนไว้ก่อนจนกว่า Rust จะมี stroke-history model จริง (ดู AUDIT.md P1: preview strokes are not persisted)
+                        // การแสดงปุ่มที่ปิดใช้งานถาวรกินพื้นที่ touch dock โดยไม่มีประโยชน์
+                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 24) / 3 : (toolRow.parent.width - root.contentGutter * 2 - 16) / 3; keyName: "pen"; label: "Pen"; glyph: "✎"; fill: "#b9ddff"; isPalm: false }
+                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 24) / 3 : (toolRow.parent.width - root.contentGutter * 2 - 16) / 3; keyName: "eraser"; label: "Eraser"; glyph: "◇"; fill: "#ffb0a6"; isPalm: false }
+                        DockButton { width: root.landscape ? (toolRow.parent.width - root.contentGutter * 2 - 24) / 3 : (toolRow.parent.width - root.contentGutter * 2 - 16) / 3; keyName: "palm"; label: "Palm Rest"; glyph: "✋"; fill: "#c8efd7"; isPalm: true }
                     }
                 }
             }

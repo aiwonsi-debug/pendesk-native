@@ -13,3 +13,5 @@
 - [x] Recenter the worksheet workspace on a US Letter portrait canvas for pen-display tablet work; validate both Full HD orientations.
 - [x] Rebuild the native home workspace around the supplied stylus desktop reference while retaining the US Letter portrait worksheet route.
 - [x] Prepare a clean source commit and push the completed PenDesk prototype to GitHub.
+- [x] Review the uploaded UX/UI patch materials and validate their compatibility before applying any changes.
+- [ ] Apply the approved QML UX/UI patch, rebuild and validate the Debian package, then push the follow-up GitHub revision.

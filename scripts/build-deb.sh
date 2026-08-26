@@ -32,6 +32,7 @@ install -Dm644 "$PROJECT_ROOT/LOW_END_PERFORMANCE.md" "$STAGE/usr/share/doc/pend
 install -Dm644 "$PROJECT_ROOT/FULLHD_LAYOUT.md" "$STAGE/usr/share/doc/pendesk/FULLHD_LAYOUT.md"
 install -Dm644 "$PROJECT_ROOT/US_LETTER_WORKSPACE.md" "$STAGE/usr/share/doc/pendesk/US_LETTER_WORKSPACE.md"
 install -Dm644 "$PROJECT_ROOT/REFERENCE_HOME_LAYOUT.md" "$STAGE/usr/share/doc/pendesk/REFERENCE_HOME_LAYOUT.md"
+install -Dm644 "$PROJECT_ROOT/UPLOADED_PATCH_REVIEW.md" "$STAGE/usr/share/doc/pendesk/UPLOADED_PATCH_REVIEW.md"
 
 # Derive native shared-library dependencies from the release executable and add
 # QML modules and the X11 platform plugin explicitly because they are loaded at run time.

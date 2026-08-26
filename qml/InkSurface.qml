@@ -142,7 +142,7 @@ Rectangle {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
         cursorShape: Qt.CrossCursor
-        preventStealing: true
+        preventStealing: true // ป้องกัน Flickable แย่ง gesture ระหว่างลาก stroke (ดู AUDIT.md P2)
         onPressed: function(mouse) {
             root.strokeActive = true
             root.addPreviewSample(mouse.x, mouse.y, 1.0, true)
@@ -181,6 +181,8 @@ Rectangle {
         Button {
             text: root.lowPower ? "Use Balanced" : "Use Low power"
             implicitHeight: 32
+            Accessible.role: Accessible.Button
+            Accessible.name: text
             onClicked: root.qualityProfile = root.lowPower ? "balanced" : "lowPower"
             background: Rectangle { radius: 16; color: "#dcecff" }
             contentItem: Text { text: parent.text; color: "#31577f"; font.pixelSize: 10; font.weight: Font.Bold; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter; leftPadding: 10; rightPadding: 10 }
@@ -188,6 +190,8 @@ Rectangle {
         Button {
             text: "Clear"
             implicitHeight: 32
+            Accessible.role: Accessible.Button
+            Accessible.name: "Clear preview strokes"
             onClicked: root.clearPreview()
             background: Rectangle { radius: 16; color: "#ffdfd4" }
             contentItem: Text { text: parent.text; color: "#9d4a35"; font.pixelSize: 10; font.weight: Font.Bold; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter; leftPadding: 10; rightPadding: 10 }
