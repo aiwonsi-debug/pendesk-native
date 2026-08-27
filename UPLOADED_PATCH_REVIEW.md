@@ -27,3 +27,13 @@ Apply only the reviewed QML patch, then rebuild the Debian package, revalidate t
 ## Approved tracked-source validation
 
 The approved patch has now been applied to the tracked QML source. The native application built successfully and rendered without QML or shader-loading errors at 900×620 and 2560×1440. The compact capture shows the icon-only rail, Letter page, and three wider pen controls; the Full HD capture retains the supplied-reference daily desk composition with three launch tiles and three recent-work entries.
+
+## Refreshed archive review
+
+The refreshed archive contains the same `InkSurface.qml` as the current tracked source and a `Main.qml` replacement with three additional refinements: a flexible `RowLayout` status row, compact-rail hover tooltips, and a visible selected-workspace accent bar in compact mode. Its combined patch was generated against an older source revision and does not apply directly, but a direct comparison shows only 17 added and 3 removed lines relative to the current `Main.qml`.
+
+The replacement QML was validated in an isolated copy of the current source. It built successfully and started without QML or shader-loading errors at 900×620, 2560×1440, and 1080×1920. The 900×620 capture visibly confirmed the compact **Browse** tooltip; the active worksheet rail tile retained its coral selection accent. The tracked source has not yet been modified with these three additional refinements.
+
+## Applied refinement validation
+
+The three refinements have now been applied to tracked `Main.qml` as a focused change rather than applying the stale combined patch. The debug build and rendered native sessions passed at 900×620, 2560×1440, and 1080×1920 without QML or shader-loading errors. The rebuilt release binary also passed compact and Full HD X11 smoke checks; the Debian package contains the executable, launcher, icon, and review documentation.

@@ -15,3 +15,7 @@
 - [x] Prepare a clean source commit and push the completed PenDesk prototype to GitHub.
 - [x] Review the uploaded UX/UI patch materials and validate their compatibility before applying any changes.
 - [x] Apply the approved QML UX/UI patch, rebuild and validate the Debian package, then push the follow-up GitHub revision.
+- [x] Test the rebuilt Debian package in the available live environment and determine whether a physical stylus tablet is accessible.
+- [ ] Run the physical pen-display tablet validation on a Debian/X11 desktop with the actual stylus device attached.
+- [x] Review and validate the uploaded header and compact-rail refinements before applying them to tracked source.
+- [ ] Apply the approved header and compact-rail refinements, rebuild and validate the installer, then publish the GitHub update.

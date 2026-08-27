@@ -65,6 +65,9 @@ ApplicationWindow {
         }
         Accessible.role: Accessible.Button
         Accessible.name: label
+        ToolTip.visible: root.compact && root.landscape && hovered
+        ToolTip.text: label
+        ToolTip.delay: 400
         contentItem: Item {
             Column {
                 visible: root.landscape && !root.compact
@@ -81,6 +84,15 @@ ApplicationWindow {
                 color: "white"
                 font.pixelSize: 30
                 font.weight: Font.DemiBold
+            }
+            Rectangle {
+                visible: root.landscape && root.compact && root.desktop.workspace === keyName
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                width: 4
+                height: parent.height * 0.5
+                radius: 2
+                color: activeColor
             }
             Row {
                 visible: !root.landscape
@@ -280,7 +292,7 @@ ApplicationWindow {
                     color: "#fffdf9"
                     border.color: "#eee9e1"
                     border.width: 1
-                    Row {
+                    RowLayout {
                         anchors.left: parent.left
                         anchors.leftMargin: root.contentGutter
                         anchors.right: parent.right
@@ -288,7 +300,7 @@ ApplicationWindow {
                         anchors.verticalCenter: parent.verticalCenter
                         spacing: 12
                         Text { text: root.desktop.workspace === "daily" && root.landscape ? "" : (root.landscape ? "PenDesk" : "◔  PenDesk"); color: root.ink; font.pixelSize: root.landscape ? 20 : 19; font.weight: Font.Bold }
-                        Item { width: Math.max(0, parent.width - (root.landscape ? 390 : 260)); height: 1; anchors.verticalCenter: parent.verticalCenter }
+                        Item { Layout.fillWidth: true }
                         Text { text: root.landscape ? "Stylus connected" : "Stylus"; color: "#11151c"; font.pixelSize: 14; font.weight: Font.Bold }
                         Text { text: "●"; color: "#3ac49e"; font.pixelSize: 15 }
                         Text { visible: root.landscape; text: "⌁"; color: "#11151c"; font.pixelSize: 24; font.weight: Font.Bold }
