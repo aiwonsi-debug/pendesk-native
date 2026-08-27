@@ -18,4 +18,4 @@
 - [x] Test the rebuilt Debian package in the available live environment and determine whether a physical stylus tablet is accessible.
 - [ ] Run the physical pen-display tablet validation on a Debian/X11 desktop with the actual stylus device attached.
 - [x] Review and validate the uploaded header and compact-rail refinements before applying them to tracked source.
-- [ ] Apply the approved header and compact-rail refinements, rebuild and validate the installer, then publish the GitHub update.
+- [x] Apply the approved header and compact-rail refinements, rebuild and validate the installer, then publish the GitHub update.
